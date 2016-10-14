@@ -4,27 +4,25 @@ using Newtonsoft.Json;
 
 namespace ConsoleApplication
 {
-    public class Data 
-    {
-        public string Version { get; set;}
-    } 
-
     public class Program
     {
         public static void Main(string[] args)
         {
-            Data data = null;
+            Wrapper wrapper = null;
 
-            using (var reader = File.OpenText("project.json")) 
+            using (var reader = File.OpenText("testdata/grids.json")) 
             {
                 using (var jsonTextReader = new JsonTextReader(reader)) 
                 {
                     var jsonSerializer = new JsonSerializer();
-                    data = jsonSerializer.Deserialize(jsonTextReader, typeof(Data)) as Data; 
+                    wrapper = jsonSerializer.Deserialize(jsonTextReader, typeof(Wrapper)) as Wrapper; 
                 }
             }
-            
-            Console.WriteLine("Loaded version = {0}", data.Version);
+
+            for (int i = 0; i < wrapper.Grids.Length; ++i)
+            {
+                Console.WriteLine("grids[{0}] = {1}", i, wrapper.Grids[i].Name);
+            }
         }
     }
 }
